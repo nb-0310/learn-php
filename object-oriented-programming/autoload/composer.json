@@ -1,0 +1,15 @@
+{
+    "name": "nirzarbhatt/autoload",
+    "autoload": {
+        "psr-4": {
+            "Acme\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nb-0310",
+            "email": "nirzarbhatt031093@gmail.com"
+        }
+    ],
+    "require": {}
+}
