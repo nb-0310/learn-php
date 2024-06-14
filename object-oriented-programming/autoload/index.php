@@ -15,7 +15,7 @@ $person = new Person("John Doe", 30);
 echo $person->greet();
 
 $dog = new Dog("Buddy", 3);
-echo $dog->getDetails();
+echo $dog->getDetails(); 
 echo "\n";
 echo $dog->makeSound(); 
 
