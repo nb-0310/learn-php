@@ -1,8 +1,26 @@
-<?php require_once("includes/connection.php"); ?>
-<?php require_once("includes/functions.php"); ?>
+<?php require_once ("includes/connection.php"); ?>
+<?php require_once ("includes/functions.php"); ?>
+<?php
+$sel_page = [
+	"id" => 1,
+	"subject_id" => 1,
+	"menu_name" => "Page1",
+	"position" => 1,
+	"visible" => 1,
+	"content" => "This is Page1."
+];
+
+$sel_subject = [
+	"id" => 1,
+	"subject_id" => 1,
+	"menu_name" => "Subject1",
+	"position" => 1,
+	"visible" => 1,
+];
+?>
 
 <?php find_selected_page($connection); ?>
-<?php include("includes/header.php"); ?>
+<?php include ("includes/header.php"); ?>
 <table id="structure">
 	<tr>
 		<td id="navigation">
@@ -20,4 +38,4 @@
 		</td>
 	</tr>
 </table>
-<?php include("includes/footer.php"); ?>
+<?php include ("includes/footer.php"); ?>

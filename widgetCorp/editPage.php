@@ -5,7 +5,7 @@
 		header('content.php');
 	}
 
-	include_once("includes/form_functions.php");
+	include_once("includes/formFunctions.php");
 
 	if (isset($_POST['submit'])) {
 		$errors = array();
@@ -14,7 +14,7 @@
 		$errors = array_merge($errors, check_required_fields($required_fields));
 
 		$fields_with_lengths = array('menu_name' => 30);
-		$errors = array_merge($errors, check_max_field_lengths($fields_with_lengths));
+		$errors = array_merge($errors, check_max_field_lengths($fields_with_lengths, $connection));
 
 		$id = mysqli_real_escape_string($connection, $_GET['page']);
 		$menu_name = trim(mysqli_real_escape_string($connection, $_POST['menu_name']));
@@ -46,24 +46,24 @@
 		}
 	}
 ?>
-<?php find_selected_page(); ?>
+<?php find_selected_page($connection); ?>
 <?php include("includes/header.php"); ?>
 <table id="structure">
 	<tr>
 		<td id="navigation">
-			<?php echo navigation($sel_subject, $sel_page); ?>
+			<?php echo navigation($sel_subject, $sel_page, $connection); ?>
 			<br />
 			<a href="new_subject.php">+ Add a new subject</a>
 		</td>
 		<td id="page">
-			<h2>Edit page: <?php echo $sel_page['menu_name']; ?></h2>
+			<h2>Edit page: <?php echo isset($sel_page) && isset($sel_page['menu_name']) && $sel_page['menu_name']; ?></h2>
 			<?php if (!empty($message)) { echo "<p class=\"message\">" . $message . "</p>"; } ?>
 			<?php if (!empty($errors)) { display_errors($errors); } ?>
 
-			<form action="edit_page.php?page=<?php echo $sel_page['id']; ?>" method="post">
-				<?php include "page_form.php" ?>
+			<form action="editPage.php?page=<?php echo $sel_page['id']; ?>" method="post">
+				<?php include "pageForm.php" ?>
 				<input type="submit" name="submit" value="Update Page" />&nbsp;&nbsp;
-				<a href="delete_page.php?page=<?php echo $sel_page['id']; ?>" onclick="return confirm('Are you sure you want to delete this page?');">Delete page</a>
+				<a href="deletePage.php?page=<?php echo $sel_page['id']; ?>" onclick="return confirm('Are you sure you want to delete this page?');">Delete page</a>
 			</form>
 			<br />
 			<a href="content.php?page=<?php echo $sel_page['id']; ?>">Cancel</a><br />

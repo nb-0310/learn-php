@@ -11,7 +11,7 @@ if ($page = get_page_by_id($id, $connection)) {
     $query = "DELETE FROM pages WHERE id = {$page['id']} LIMIT 1";
     $result = mysqli_query($connection, $query);
     if (mysqli_affected_rows($connection) == 1) {
-        redirect_to("edit_subject.php?subj={$page['subject_id']}");
+        redirect_to("editSubject.php?subj={$page['subject_id']}");
     } else {
         echo "<p>Page deletion failed.</p>";
         echo "<p>" . mysqli_error($connection) . "</p>";

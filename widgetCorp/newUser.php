@@ -3,7 +3,7 @@
 <?php require_once("includes/functions.php"); ?>
 <?php confirm_logged_in(); ?>
 <?php
-	include_once("includes/form_functions.php");
+	include_once("includes/formFunctions.php");
 	
 	// START FORM PROCESSING
 	if (isset($_POST['submit'])) { // Form has been submitted.
@@ -16,8 +16,8 @@
 		$fields_with_lengths = array('username' => 30, 'password' => 30);
 		$errors = array_merge($errors, check_max_field_lengths($fields_with_lengths, $_POST));
 
-		$username = trim(mysql_prep($_POST['username']));
-		$password = trim(mysql_prep($_POST['password']));
+		$username = trim(mysql_prep($_POST['username'], $connection));
+		$password = trim(mysql_prep($_POST['password'], $connection));
 		$hashed_password = sha1($password);
 
 		if ( empty($errors) ) {
@@ -26,12 +26,13 @@
 						) VALUES (
 							'{$username}', '{$hashed_password}'
 						)";
-			$result = mysql_query($query, $connection);
+			// $result = mysql_query($query, $connection);
+			$result = $connection->query($query);
 			if ($result) {
 				$message = "The user was successfully created.";
 			} else {
 				$message = "The user could not be created.";
-				$message .= "<br />" . mysql_error();
+				// $message .= "<br />" . mysql_error();
 			}
 		} else {
 			if (count($errors) == 1) {
@@ -56,7 +57,7 @@
 			<h2>Create New User</h2>
 			<?php if (!empty($message)) {echo "<p class=\"message\">" . $message . "</p>";} ?>
 			<?php if (!empty($errors)) { display_errors($errors); } ?>
-			<form action="new_user.php" method="post">
+			<form action="newUser.php" method="post">
 			<table>
 				<tr>
 					<td>Username:</td>

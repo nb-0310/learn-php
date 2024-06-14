@@ -1,11 +1,16 @@
 <?php
-// This file is the place to store all basic functions
-
 
 function mysql_prep($value, $connection) {
-    $value = stripslashes($value); // Undo any magic quote effects so mysqli_real_escape_string can do the work
-    $value = mysqli_real_escape_string($connection, $value);
-    return $value;
+    // echo "<pre>";
+    // var_dump($connection);
+    // echo "</pre>";
+    // if (!($connection instanceof mysqli)) {
+    //     throw new Exception("Invalid MySQL connection object.");
+    // }
+    $new_val = stripslashes($value);
+    echo $new_val;
+    $res = $connection->real_escape_string($new_val);
+    return $res;
 }
 
 function redirect_to($location = NULL) {
@@ -24,6 +29,10 @@ function confirm_query($result_set, $connection) {
 function get_all_subjects($connection) {
     $query = "SELECT * FROM subjects ORDER BY position ASC";
     $subject_set = $connection->query($query);
+    // $subject_array = $subject_set->fetch_assoc();
+    // echo "<pre>";
+    // print_r($subject_set);
+    // echo "</pre>";
     return $subject_set;
 }
 
@@ -99,17 +108,21 @@ function navigation($sel_subject, $sel_page, $connection) {
 function public_navigation($sel_subject, $sel_page, $connection) {
     $output = "<ul class=\"subjects\">";
     $subject_set = get_all_subjects($connection);
+    // $subject_array = mysqli_fetch_assoc($subject_set);
     while ($subject = mysqli_fetch_assoc($subject_set)) {
         $output .= "<li";
-        if ($subject["id"] == $sel_subject['id']) { $output .= " class=\"selected\""; }
+        if (isset($subject["id"]) && isset($sel_subject['id']) && $subject["id"] == $sel_subject['id']) {
+            $output .= " class=\"selected\"";
+        }
         $output .= "><a href=\"index.php?subj=" . urlencode($subject["id"]) . 
             "\">{$subject["menu_name"]}</a></li>";
-        if ($subject["id"] == $sel_subject['id']) {	
+        if (isset($subject["id"]) && isset($sel_subject['id']) && $subject["id"] == $sel_subject['id']) {	
             $page_set = get_pages_for_subject($subject["id"], $connection);
             $output .= "<ul class=\"pages\">";
+            // $page_array = mysqli_fetch_assoc($page_set);
             while ($page = mysqli_fetch_assoc($page_set)) {
                 $output .= "<li";
-                if ($page["id"] == $sel_page['id']) { $output .= " class=\"selected\""; }
+                if (isset($sel_page) && isset($sel_page["id"]) && $page["id"] == $sel_page['id']) { $output .= " class=\"selected\""; }
                 $output .= "><a href=\"index.php?page=" . urlencode($page["id"]) .
                     "\">{$page["menu_name"]}</a></li>";
             }

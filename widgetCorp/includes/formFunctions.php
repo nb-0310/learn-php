@@ -9,10 +9,10 @@ function check_required_fields($required_array) {
 	return $field_errors;
 }
 
-function check_max_field_lengths($field_length_array, $connection) {
+function check_max_field_lengths($field_length_array) {
 	$field_errors = array();
 	foreach($field_length_array as $fieldname => $maxlength ) {
-		if (strlen(trim(mysql_prep($_POST[$fieldname], $connection))) > $maxlength) { $field_errors[] = $fieldname; }
+		if (strlen(trim($_POST[$fieldname])) > $maxlength) { $field_errors[] = $fieldname; }
 	}
 	return $field_errors;
 }
